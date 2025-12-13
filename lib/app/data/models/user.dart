@@ -36,7 +36,8 @@ class User {
       email: json['email'] as String,
       phone: json['phone'] as String?,
       role: json['role'] as String,
-      membershipRegistered: json['membership_registered'] as String? ?? 'unregistered',
+      membershipRegistered:
+          json['membership_registered'] as String? ?? 'unregistered',
       membershipStatus: json['membership_status'] as String? ?? 'inactive',
       membershipEndDate: json['membership_end_date'] != null
           ? DateTime.parse(json['membership_end_date'] as String)
@@ -77,7 +78,7 @@ class User {
     if (profileImage!.startsWith('http')) {
       return profileImage!;
     }
-    return 'https://gym.sulthon.blue.com/storage/$profileImage';
+    return 'https://gym.sulthon.blue/storage/$profileImage';
   }
 
   bool get isEmailVerified => emailVerifiedAt != null;
