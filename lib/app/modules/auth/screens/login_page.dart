@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
-import 'package:gym_app/app/config/routes/app_routes.dart';
+import 'package:gym_app/app/core/config/routes/app_routes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

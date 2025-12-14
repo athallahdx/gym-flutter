@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_app/app/data/repositories/auth_repository.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
-import 'package:gym_app/shared/widgets/storage_network_image.dart';
+import 'package:gym_app/app/widgets/storage_network_image.dart';
 import 'package:gym_app/app/modules/profile/bloc/profile_bloc.dart';
 import 'package:gym_app/app/modules/profile/screens/update_profile_page.dart';
 import 'package:gym_app/app/modules/profile/screens/update_password_page.dart';

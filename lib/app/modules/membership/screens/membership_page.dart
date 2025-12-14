@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_app/app/data/repositories/membership_repository.dart';
 import 'package:gym_app/app/modules/membership/bloc/membership_bloc.dart';
-import 'package:gym_app/shared/widgets/storage_network_image.dart';
+import 'package:gym_app/app/widgets/storage_network_image.dart';
 import 'package:intl/intl.dart';
 
 class MembershipPage extends StatelessWidget {
@@ -59,7 +59,7 @@ class MembershipView extends StatelessWidget {
                     sliver: SliverGrid(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1,
+                        childAspectRatio: 0.9,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
                       ),

@@ -4,7 +4,7 @@ import 'package:gym_app/app/data/repositories/auth_repository.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
 import 'package:gym_app/app/modules/auth/screens/login_page.dart';
 import 'package:gym_app/app/widgets/main_navigation.dart';
-import 'package:gym_app/app/config/routes/app_routes.dart';
+import 'package:gym_app/app/core/config/routes/app_routes.dart';
 
 void main() {
   runApp(const MyApp());

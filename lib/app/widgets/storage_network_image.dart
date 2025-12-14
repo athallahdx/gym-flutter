@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:gym_app/app/data/providers/api_routes.dart';
+import 'package:gym_app/app/core/providers/api_routes.dart';
 import 'package:gym_app/app/core/services/user_info.dart';
 
 /// Widget to load images from Laravel storage with Sanctum authentication

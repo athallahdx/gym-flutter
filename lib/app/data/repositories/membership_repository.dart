@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:gym_app/app/data/models/membership_package.dart';
-import 'package:gym_app/app/data/providers/api_provider.dart';
-import 'package:gym_app/app/data/providers/api_routes.dart';
+import 'package:gym_app/app/core/providers/api_provider.dart';
+import 'package:gym_app/app/core/providers/api_routes.dart';
 
 class MembershipRepository {
   final Api _api = Api();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_app/app/data/repositories/dashboard_repository.dart';
 import 'package:gym_app/app/modules/dashboard/bloc/dashboard_bloc.dart';
-import 'package:gym_app/shared/widgets/storage_network_image.dart';
+import 'package:gym_app/app/widgets/storage_network_image.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
