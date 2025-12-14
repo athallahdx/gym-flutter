@@ -9,18 +9,20 @@ class MembershipRepository {
   /// Fetch all membership packages (public endpoint)
   Future<List<MembershipPackage>> getMembershipPackages() async {
     try {
-      print('📦 Fetching membership packages from: ${ApiUrl.membershipPackages}');
+      print(
+        '📦 Fetching membership packages from: ${ApiUrl.membershipPackages}',
+      );
       final response = await _api.get(ApiUrl.membershipPackages);
-      
+
       print('📦 Response status: ${response.statusCode}');
       print('📦 Response body: ${response.body}');
-      
+
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        
+
         // Handle paginated response: { "data": { "data": [...] } }
         List<dynamic> packagesData;
-        
+
         if (jsonData['data'] is Map) {
           final dataMap = jsonData['data'] as Map<String, dynamic>;
           if (dataMap.containsKey('data')) {
@@ -39,11 +41,14 @@ class MembershipRepository {
           print('📦 Unexpected response structure: ${jsonData.runtimeType}');
           throw Exception('Unexpected API response structure');
         }
-        
+
         print('📦 Found ${packagesData.length} packages');
-        
+
         return packagesData
-            .map((json) => MembershipPackage.fromJson(json as Map<String, dynamic>))
+            .map(
+              (json) =>
+                  MembershipPackage.fromJson(json as Map<String, dynamic>),
+            )
             .toList();
       } else {
         throw Exception('Failed to load membership packages');
@@ -58,7 +63,7 @@ class MembershipRepository {
   Future<MembershipPackage> getMembershipPackageDetail(int id) async {
     try {
       final response = await _api.get(ApiUrl.membershipPackageDetail(id));
-      
+
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         return MembershipPackage.fromJson(jsonData['data']);
@@ -77,7 +82,7 @@ class MembershipRepository {
         ApiUrl.purchaseMembership,
         json.encode({'package_id': packageId}),
       );
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         return json.decode(response.body);
       } else {
@@ -94,9 +99,9 @@ class MembershipRepository {
     try {
       print('🎫 Fetching current membership from: ${ApiUrl.currentMembership}');
       final response = await _api.get(ApiUrl.currentMembership);
-      
+
       print('🎫 Response status: ${response.statusCode}');
-      
+
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         print('🎫 Current membership found');
