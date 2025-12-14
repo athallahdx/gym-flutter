@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_app/app/data/repositories/auth_repository.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_event.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_state.dart';
+import 'package:gym_app/app/modules/profile/bloc/profile_bloc.dart';
+import 'package:gym_app/app/modules/profile/screens/update_profile_page.dart';
+import 'package:gym_app/app/modules/profile/screens/update_password_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -30,7 +34,9 @@ class ProfilePage extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         Navigator.pop(dialogContext);
-                        context.read<AuthBloc>().add(const AuthLogoutRequested());
+                        context.read<AuthBloc>().add(
+                          const AuthLogoutRequested(),
+                        );
                       },
                       child: const Text('Logout'),
                     ),
@@ -45,7 +51,7 @@ class ProfilePage extends StatelessWidget {
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             final user = state.user;
-            
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -70,9 +76,9 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     user.email,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 8),
                   Chip(
@@ -80,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                     backgroundColor: Colors.blue.shade100,
                   ),
                   const SizedBox(height: 32),
-                  
+
                   Card(
                     child: Column(
                       children: [
@@ -93,10 +99,16 @@ class ProfilePage extends StatelessWidget {
                         ListTile(
                           leading: const Icon(Icons.card_membership),
                           title: const Text('Membership Status'),
-                          subtitle: Text(user.isMembershipActive ? 'Active' : 'Inactive'),
+                          subtitle: Text(
+                            user.isMembershipActive ? 'Active' : 'Inactive',
+                          ),
                           trailing: Icon(
-                            user.isMembershipActive ? Icons.check_circle : Icons.cancel,
-                            color: user.isMembershipActive ? Colors.green : Colors.red,
+                            user.isMembershipActive
+                                ? Icons.check_circle
+                                : Icons.cancel,
+                            color: user.isMembershipActive
+                                ? Colors.green
+                                : Colors.red,
                           ),
                         ),
                         if (user.membershipEndDate != null) ...[
@@ -114,15 +126,19 @@ class ProfilePage extends StatelessWidget {
                           leading: const Icon(Icons.verified),
                           title: const Text('Email Verified'),
                           trailing: Icon(
-                            user.isEmailVerified ? Icons.check_circle : Icons.cancel,
-                            color: user.isEmailVerified ? Colors.green : Colors.red,
+                            user.isEmailVerified
+                                ? Icons.check_circle
+                                : Icons.cancel,
+                            color: user.isEmailVerified
+                                ? Colors.green
+                                : Colors.red,
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   Card(
                     child: Column(
                       children: [
@@ -131,7 +147,17 @@ class ProfilePage extends StatelessWidget {
                           title: const Text('Edit Profile'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
-                            // TODO: Navigate to edit profile
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => ProfileBloc(
+                                    authRepository: AuthRepository(),
+                                  ),
+                                  child: const UpdateProfilePage(),
+                                ),
+                              ),
+                            );
                           },
                         ),
                         const Divider(height: 1),
@@ -140,18 +166,28 @@ class ProfilePage extends StatelessWidget {
                           title: const Text('Change Password'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
-                            // TODO: Navigate to change password
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => ProfileBloc(
+                                    authRepository: AuthRepository(),
+                                  ),
+                                  child: const UpdatePasswordPage(),
+                                ),
+                              ),
+                            );
                           },
                         ),
-                        const Divider(height: 1),
-                        ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: const Text('Settings'),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // TODO: Navigate to settings
-                          },
-                        ),
+                        // const Divider(height: 1),
+                        // ListTile(
+                        //   leading: const Icon(Icons.settings),
+                        //   title: const Text('Settings'),
+                        //   trailing: const Icon(Icons.chevron_right),
+                        //   onTap: () {
+                        //     // TODO: Navigate to settings
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -159,7 +195,7 @@ class ProfilePage extends StatelessWidget {
               ),
             );
           }
-          
+
           return const Center(child: CircularProgressIndicator());
         },
       ),

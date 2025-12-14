@@ -12,7 +12,7 @@ class AppException implements Exception {
 
 class FetchDataException extends AppException {
   FetchDataException([String? message])
-      : super(message, "Error During Communication: ");
+    : super(message, "Error During Communication: ");
 }
 
 class BadRequestException extends AppException {
@@ -25,7 +25,7 @@ class UnauthorisedException extends AppException {
 
 class UnprocessableEntityException extends AppException {
   UnprocessableEntityException([message])
-      : super(message, "Unprocessable Entity: ");
+    : super(message, "Unprocessable Entity: ");
 }
 
 class InvalidInputException extends AppException {

@@ -54,21 +54,12 @@ class AuthRepository {
           errorMessage = errors.values.first[0];
         }
 
-        return {
-          'success': false,
-          'message': errorMessage,
-        };
+        return {'success': false, 'message': errorMessage};
       }
     } on SocketException {
-      return {
-        'success': false,
-        'message': 'No internet connection',
-      };
+      return {'success': false, 'message': 'No internet connection'};
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'An error occurred: $e',
-      };
+      return {'success': false, 'message': 'An error occurred: $e'};
     }
   }
 
@@ -80,10 +71,7 @@ class AuthRepository {
     try {
       final response = await http.post(
         Uri.parse(ApiUrl.login),
-        body: {
-          'email': email,
-          'password': password,
-        },
+        body: {'email': email, 'password': password},
       );
 
       final data = json.decode(response.body);
@@ -103,21 +91,12 @@ class AuthRepository {
           'token': token,
         };
       } else {
-        return {
-          'success': false,
-          'message': data['message'] ?? 'Login failed',
-        };
+        return {'success': false, 'message': data['message'] ?? 'Login failed'};
       }
     } on SocketException {
-      return {
-        'success': false,
-        'message': 'No internet connection',
-      };
+      return {'success': false, 'message': 'No internet connection'};
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'An error occurred: $e',
-      };
+      return {'success': false, 'message': 'An error occurred: $e'};
     }
   }
 
@@ -125,29 +104,21 @@ class AuthRepository {
   Future<Map<String, dynamic>> logout() async {
     try {
       final token = await _userInfo.getToken();
-      
+
       if (token == null) {
-        return {
-          'success': false,
-          'message': 'No active session',
-        };
+        return {'success': false, 'message': 'No active session'};
       }
 
       final response = await http.post(
         Uri.parse(ApiUrl.logout),
-        headers: {
-          HttpHeaders.authorizationHeader: 'Bearer $token',
-        },
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
       );
 
       // Clear local session regardless of API response
       await _userInfo.logout();
 
       if (response.statusCode == 200) {
-        return {
-          'success': true,
-          'message': 'Logged out successfully',
-        };
+        return {'success': true, 'message': 'Logged out successfully'};
       } else {
         return {
           'success': true, // Still success because we cleared local data
@@ -157,10 +128,7 @@ class AuthRepository {
     } catch (e) {
       // Clear local session even if API call fails
       await _userInfo.logout();
-      return {
-        'success': true,
-        'message': 'Logged out locally',
-      };
+      return {'success': true, 'message': 'Logged out locally'};
     }
   }
 
@@ -168,29 +136,21 @@ class AuthRepository {
   Future<Map<String, dynamic>> getProfile() async {
     try {
       final token = await _userInfo.getToken();
-      
+
       if (token == null) {
-        return {
-          'success': false,
-          'message': 'No active session',
-        };
+        return {'success': false, 'message': 'No active session'};
       }
 
       final response = await http.get(
         Uri.parse(ApiUrl.profile),
-        headers: {
-          HttpHeaders.authorizationHeader: 'Bearer $token',
-        },
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
       );
 
       final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
         final user = User.fromJson(data['data']);
-        return {
-          'success': true,
-          'user': user,
-        };
+        return {'success': true, 'user': user};
       } else {
         return {
           'success': false,
@@ -198,15 +158,9 @@ class AuthRepository {
         };
       }
     } on SocketException {
-      return {
-        'success': false,
-        'message': 'No internet connection',
-      };
+      return {'success': false, 'message': 'No internet connection'};
     } catch (e) {
-      return {
-        'success': false,
-        'message': 'An error occurred: $e',
-      };
+      return {'success': false, 'message': 'An error occurred: $e'};
     }
   }
 
@@ -219,5 +173,103 @@ class AuthRepository {
   /// Get current user ID
   Future<int?> getCurrentUserId() async {
     return await _userInfo.getUserID();
+  }
+
+  /// Update user profile
+  Future<Map<String, dynamic>> updateProfile({
+    required String name,
+    String? email,
+    String? phone,
+    String? profileBio,
+  }) async {
+    try {
+      final token = await _userInfo.getToken();
+
+      if (token == null) {
+        return {'success': false, 'message': 'No active session'};
+      }
+
+      final body = {
+        'name': name,
+        if (email != null) 'email': email,
+        if (phone != null) 'phone': phone,
+        if (profileBio != null) 'profile_bio': profileBio,
+      };
+
+      final response = await http.put(
+        Uri.parse(ApiUrl.updateProfile),
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+        body: body,
+      );
+
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        final user = User.fromJson(data['data']);
+        return {
+          'success': true,
+          'message': data['message'] ?? 'Profile updated successfully',
+          'user': user,
+        };
+      } else {
+        String errorMessage = data['message'] ?? 'Failed to update profile';
+        if (data['errors'] != null) {
+          final errors = data['errors'] as Map<String, dynamic>;
+          errorMessage = errors.values.first[0];
+        }
+
+        return {'success': false, 'message': errorMessage};
+      }
+    } on SocketException {
+      return {'success': false, 'message': 'No internet connection'};
+    } catch (e) {
+      return {'success': false, 'message': 'An error occurred: $e'};
+    }
+  }
+
+  /// Change user password
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String newPasswordConfirmation,
+  }) async {
+    try {
+      final token = await _userInfo.getToken();
+
+      if (token == null) {
+        return {'success': false, 'message': 'No active session'};
+      }
+
+      final response = await http.post(
+        Uri.parse(ApiUrl.changePassword),
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+        body: {
+          'current_password': currentPassword,
+          'new_password': newPassword,
+          'new_password_confirmation': newPasswordConfirmation,
+        },
+      );
+
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        return {
+          'success': true,
+          'message': data['message'] ?? 'Password changed successfully',
+        };
+      } else {
+        String errorMessage = data['message'] ?? 'Failed to change password';
+        if (data['errors'] != null) {
+          final errors = data['errors'] as Map<String, dynamic>;
+          errorMessage = errors.values.first[0];
+        }
+
+        return {'success': false, 'message': errorMessage};
+      }
+    } on SocketException {
+      return {'success': false, 'message': 'No internet connection'};
+    } catch (e) {
+      return {'success': false, 'message': 'An error occurred: $e'};
+    }
   }
 }

@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
         builder: (context, state) {
           if (state is AuthAuthenticated) {
             final user = state.user;
-            
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -46,16 +46,14 @@ class DashboardPage extends StatelessWidget {
                               children: [
                                 Text(
                                   'Welcome back!',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Colors.grey[600],
-                                  ),
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: Colors.grey[600]),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   user.name,
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -157,9 +155,12 @@ class DashboardPage extends StatelessWidget {
                                       user.hasMembership
                                           ? 'Active Membership'
                                           : 'No Active Membership',
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -240,7 +241,7 @@ class DashboardPage extends StatelessWidget {
               ),
             );
           }
-          
+
           return const Center(child: CircularProgressIndicator());
         },
       ),
@@ -264,17 +265,14 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Colors.grey[600], fontSize: 12),
             ),
           ],
         ),
@@ -302,9 +300,7 @@ class DashboardPage extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 label,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
             ],

@@ -10,9 +10,7 @@ class GymClassesPage extends StatelessWidget {
         title: const Text('Gym Classes'),
         automaticallyImplyLeading: false,
       ),
-      body: const Center(
-        child: Text('Gym Classes Page - Coming Soon'),
-      ),
+      body: const Center(child: Text('Gym Classes Page - Coming Soon')),
     );
   }
 }

@@ -10,9 +10,7 @@ class MembershipPage extends StatelessWidget {
         title: const Text('Membership'),
         automaticallyImplyLeading: false,
       ),
-      body: const Center(
-        child: Text('Membership Page - Coming Soon'),
-      ),
+      body: const Center(child: Text('Membership Page - Coming Soon')),
     );
   }
 }

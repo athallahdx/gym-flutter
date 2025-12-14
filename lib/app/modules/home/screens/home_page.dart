@@ -29,7 +29,9 @@ class HomePage extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         Navigator.pop(dialogContext);
-                        context.read<AuthBloc>().add(const AuthLogoutRequested());
+                        context.read<AuthBloc>().add(
+                          const AuthLogoutRequested(),
+                        );
                       },
                       child: const Text('Logout'),
                     ),
@@ -68,9 +70,9 @@ class HomePage extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       user.email,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Colors.grey[600],
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 24),
                     Card(
@@ -83,7 +85,9 @@ class HomePage extends StatelessWidget {
                             const Divider(),
                             _buildInfoRow(
                               'Membership',
-                              user.hasMembership ? 'Registered' : 'Not Registered',
+                              user.hasMembership
+                                  ? 'Registered'
+                                  : 'Not Registered',
                             ),
                             if (user.hasMembership) ...[
                               const Divider(),
@@ -112,19 +116,17 @@ class HomePage extends StatelessWidget {
                     Text(
                       'This is a protected page.\nOnly authenticated users can access this.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.grey[600],
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                     ),
                   ],
                 ),
               ),
             );
           }
-          
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -143,12 +145,7 @@ class HomePage extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
     );

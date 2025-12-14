@@ -11,6 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRegisterRequested>(_onRegisterRequested);
     on<AuthLogoutRequested>(_onLogoutRequested);
     on<AuthCheckRequested>(_onCheckRequested);
+    on<AuthProfileUpdated>(_onProfileUpdated);
   }
 
   Future<void> _onLoginRequested(
@@ -25,10 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (result['success']) {
-      emit(AuthAuthenticated(
-        user: result['user'],
-        token: result['token'],
-      ));
+      emit(AuthAuthenticated(user: result['user'], token: result['token']));
     } else {
       emit(AuthError(message: result['message']));
       emit(const AuthUnauthenticated());
@@ -51,10 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (result['success']) {
-      emit(AuthAuthenticated(
-        user: result['user'],
-        token: result['token'],
-      ));
+      emit(AuthAuthenticated(user: result['user'], token: result['token']));
     } else {
       emit(AuthError(message: result['message']));
       emit(const AuthUnauthenticated());
@@ -66,9 +61,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(const AuthLoading());
-    
+
     await authRepository.logout();
-    
+
     emit(const AuthUnauthenticated());
   }
 
@@ -83,15 +78,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (isLoggedIn) {
       final result = await authRepository.getProfile();
       if (result['success']) {
-        emit(AuthAuthenticated(
-          user: result['user'],
-          token: '', // Token already stored
-        ));
+        emit(
+          AuthAuthenticated(
+            user: result['user'],
+            token: '', // Token already stored
+          ),
+        );
       } else {
         emit(const AuthUnauthenticated());
       }
     } else {
       emit(const AuthUnauthenticated());
+    }
+  }
+
+  Future<void> _onProfileUpdated(
+    AuthProfileUpdated event,
+    Emitter<AuthState> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is AuthAuthenticated) {
+      emit(AuthAuthenticated(
+        user: event.user,
+        token: currentState.token,
+      ));
     }
   }
 }
