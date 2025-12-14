@@ -57,6 +57,7 @@ abstract class ApiUrl {
       '$baseUrl/gym-classes/$classId/schedules/$scheduleId';
   static String deleteGymClassSchedule(int classId, int scheduleId) =>
       '$baseUrl/gym-classes/$classId/schedules/$scheduleId';
+  static const String purchaseGymClass = '$baseUrl/payments/gym-class';
   static const String bookClass = '$baseUrl/gym-classes/book';
   static String cancelBooking(int attendanceId) =>
       '$baseUrl/gym-classes/bookings/$attendanceId';
