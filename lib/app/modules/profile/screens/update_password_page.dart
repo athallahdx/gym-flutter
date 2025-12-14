@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
-import 'package:gym_app/app/modules/auth/bloc/auth_event.dart';
 import 'package:gym_app/app/modules/profile/bloc/profile_bloc.dart';
-import 'package:gym_app/app/modules/profile/bloc/profile_event.dart';
-import 'package:gym_app/app/modules/profile/bloc/profile_state.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
   const UpdatePasswordPage({super.key});
@@ -75,7 +72,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Change Password')),
-      body: BlocListener<ProfileBloc, ProfileState>(
+      body: BlocListener<ProfileBloc, Object>(
         listener: (context, state) {
           if (state is ProfileChangePasswordSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +83,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             );
             Future.delayed(const Duration(milliseconds: 1000), () {
               // Logout user after password change for security
-              context.read<AuthBloc>().add(const AuthLogoutRequested());
+              context.read<AuthBloc>().add(AuthLogoutRequested());
               Navigator.pop(context);
             });
           } else if (state is ProfileError) {
@@ -98,7 +95,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             );
           }
         },
-        child: BlocBuilder<ProfileBloc, ProfileState>(
+        child: BlocBuilder<ProfileBloc, Object>(
           builder: (context, state) {
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),

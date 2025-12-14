@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(dialogContext);
                         context.read<AuthBloc>().add(
-                          const AuthLogoutRequested(),
+                          AuthLogoutRequested(),
                         );
                       },
                       child: const Text('Logout'),

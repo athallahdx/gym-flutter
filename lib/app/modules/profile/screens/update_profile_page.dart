@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gym_app/app/data/repositories/auth_repository.dart';
 import 'package:gym_app/app/modules/auth/bloc/auth_bloc.dart';
-import 'package:gym_app/app/modules/auth/bloc/auth_event.dart';
-import 'package:gym_app/app/modules/auth/bloc/auth_state.dart';
 import 'package:gym_app/app/modules/profile/bloc/profile_bloc.dart';
-import 'package:gym_app/app/modules/profile/bloc/profile_event.dart';
-import 'package:gym_app/app/modules/profile/bloc/profile_state.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -72,9 +67,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Profile')),
-      body: BlocBuilder<AuthBloc, AuthState>(
+      body: BlocBuilder<AuthBloc, Object>(
         builder: (context, authState) {
-          return BlocListener<ProfileBloc, ProfileState>(
+          return BlocListener<ProfileBloc, Object>(
             listener: (context, state) {
               if (state is ProfileUpdateSuccess) {
                 // Update AuthBloc with new user data
@@ -99,7 +94,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 );
               }
             },
-            child: BlocBuilder<ProfileBloc, ProfileState>(
+            child: BlocBuilder<ProfileBloc, Object>(
               builder: (context, profileState) {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
