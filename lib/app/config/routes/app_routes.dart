@@ -30,10 +30,7 @@ class AppRoutes {
 
       case dashboard:
         return MaterialPageRoute(builder: (_) => const DashboardPage());
-
-      case home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
-
+        
       case gymClasses:
         return MaterialPageRoute(builder: (_) => const GymClassesPage());
 
