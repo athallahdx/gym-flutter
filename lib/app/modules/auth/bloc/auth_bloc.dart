@@ -30,6 +30,11 @@ class AuthRegisterRequested {
 class AuthLogoutRequested {}
 class AuthCheckRequested {}
 
+class AuthProfileUpdated {
+  final User user;
+  AuthProfileUpdated({required this.user});
+}
+
 // States
 class AuthInitial {}
 class AuthLoading {}
@@ -124,6 +129,16 @@ class AuthBloc extends Bloc<Object, Object> {
       }
     } else {
       emit(AuthUnauthenticated());
+    }
+  }
+
+  Future<void> _onProfileUpdated(
+    AuthProfileUpdated event,
+    Emitter<Object> emit,
+  ) async {
+    final currentState = state;
+    if (currentState is AuthAuthenticated) {
+      emit(AuthAuthenticated(event.user, currentState.token));
     }
   }
 }
