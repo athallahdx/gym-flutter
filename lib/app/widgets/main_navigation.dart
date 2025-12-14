@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_app/app/modules/dashboard/screens/dashboard_page.dart';
 import 'package:gym_app/app/modules/gym_classes/screens/gym_classes_page.dart';
 import 'package:gym_app/app/modules/membership/screens/membership_page.dart';
+import 'package:gym_app/app/modules/payments/screens/payments_page.dart';
 import 'package:gym_app/app/modules/profile/screens/profile_page.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -18,6 +19,7 @@ class _MainNavigationState extends State<MainNavigation> {
     DashboardPage(),
     GymClassesPage(),
     MembershipPage(),
+    PaymentsPage(),
     ProfilePage(),
   ];
 
@@ -50,6 +52,10 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.card_membership),
             label: 'Membership',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.payment),
+            label: 'Payments',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

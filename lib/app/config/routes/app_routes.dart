@@ -5,7 +5,7 @@ import 'package:gym_app/app/modules/dashboard/screens/dashboard_page.dart';
 import 'package:gym_app/app/modules/gym_classes/screens/gym_classes_page.dart';
 import 'package:gym_app/app/modules/membership/screens/membership_page.dart';
 import 'package:gym_app/app/modules/profile/screens/profile_page.dart';
-import 'package:gym_app/app/modules/home/screens/home_page.dart';
+import 'package:gym_app/app/modules/payments/screens/payments_page.dart';
 
 class AppRoutes {
   // Auth Routes
@@ -14,9 +14,9 @@ class AppRoutes {
 
   // Main Routes (Protected)
   static const String dashboard = '/dashboard';
-  static const String home = '/home';
   static const String gymClasses = '/gym-classes';
   static const String membership = '/membership';
+  static const String payments = '/payments';
   static const String profile = '/profile';
 
   // Route Generator
@@ -31,14 +31,14 @@ class AppRoutes {
       case dashboard:
         return MaterialPageRoute(builder: (_) => const DashboardPage());
       
-      case home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
-      
       case gymClasses:
         return MaterialPageRoute(builder: (_) => const GymClassesPage());
       
       case membership:
         return MaterialPageRoute(builder: (_) => const MembershipPage());
+
+      case payments:
+        return MaterialPageRoute(builder: (_) => const PaymentsPage());
       
       case profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
@@ -67,16 +67,16 @@ class AppRoutes {
     Navigator.pushReplacementNamed(context, dashboard);
   }
 
-  static void navigateToHome(BuildContext context) {
-    Navigator.pushNamed(context, home);
-  }
-
   static void navigateToGymClasses(BuildContext context) {
     Navigator.pushNamed(context, gymClasses);
   }
 
   static void navigateToMembership(BuildContext context) {
     Navigator.pushNamed(context, membership);
+
+  }
+  static void navigateToPayments(BuildContext context) {
+    Navigator.pushNamed(context, payments);
   }
 
   static void navigateToProfile(BuildContext context) {
