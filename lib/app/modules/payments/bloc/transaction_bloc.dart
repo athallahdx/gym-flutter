@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_app/app/core/errors/app_exception.dart';
 import 'package:gym_app/app/data/models/transaction.dart';
 import 'package:gym_app/app/data/repositories/transaction_repository.dart';
 
@@ -38,8 +39,13 @@ class TransactionBloc extends Bloc<Object, Object> {
       print('✅ TransactionBloc: Loaded ${transactions.length} transactions');
       emit(TransactionsLoaded(transactions));
     } catch (e) {
-      print('❌ TransactionBloc error: $e');
-      emit(TransactionError(e.toString()));
+      // Extract just the message part without the prefix wrapper
+      String errorMessage = e.toString();
+      if (e is AppException) {
+        errorMessage = e.message;
+      }
+      print('❌ TransactionBloc error: $errorMessage');
+      emit(TransactionError(errorMessage));
     }
   }
 }

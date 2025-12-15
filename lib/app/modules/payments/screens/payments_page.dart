@@ -51,7 +51,7 @@ class PaymentsView extends StatelessWidget {
                   const Icon(Icons.error_outline, size: 64, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
-                    'Error: ${state.message}',
+                    state.message,
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.red),
                   ),
