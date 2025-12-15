@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gym_app/app/core/errors/app_exception.dart';
 import 'package:gym_app/app/data/repositories/dashboard_repository.dart';
 
 // Events
@@ -54,8 +55,13 @@ class DashboardBloc extends Bloc<Object, Object> {
       );
       emit(DashboardLoaded(summary, data));
     } catch (e) {
-      print('❌ DashboardBloc error: $e');
-      emit(DashboardError(e.toString()));
+      // Extract just the message part without the prefix wrapper
+      String errorMessage = e.toString();
+      if (e is AppException) {
+        errorMessage = e.message;
+      }
+      print('❌ DashboardBloc error: $errorMessage');
+      emit(DashboardError(errorMessage));
     }
   }
 }

@@ -8,6 +8,8 @@ class AppException implements Exception {
   String toString() {
     return "$_prefix$_message";
   }
+
+  String get message => _message?.toString() ?? '';
 }
 
 class FetchDataException extends AppException {
