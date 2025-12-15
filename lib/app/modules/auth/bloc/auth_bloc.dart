@@ -123,8 +123,12 @@ class AuthBloc extends Bloc<Object, Object> {
     if (isLoggedIn) {
       final result = await authRepository.getProfile();
       if (result['success']) {
-        emit(AuthAuthenticated(result['user'], ''));
+        // Get the stored token for the authenticated state
+        final token = await authRepository.getCurrentToken() ?? 'authenticated';
+        emit(AuthAuthenticated(result['user'], token));
       } else {
+        // Token might be invalid, clear it
+        await authRepository.logout();
         emit(AuthUnauthenticated());
       }
     } else {

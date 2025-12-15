@@ -46,6 +46,9 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.red,
               ),
             );
+          } else if (state is AuthAuthenticated) {
+            // Navigate to main app after successful login
+            Navigator.of(context).pushReplacementNamed('/');
           }
         },
         child: SafeArea(
