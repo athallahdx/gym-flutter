@@ -15,8 +15,7 @@ class MembershipRepository {
       final response = await _api.get(ApiUrl.membershipPackages);
 
       print('📦 Response status: ${response.statusCode}');
-      print('📦 Response body: ${response.body}');
-
+      
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
 

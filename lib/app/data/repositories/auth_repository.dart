@@ -69,10 +69,15 @@ class AuthRepository {
     required String password,
   }) async {
     try {
+      print('Attempting login for email: $email'); // Debug log
+      
       final response = await http.post(
         Uri.parse(ApiUrl.login),
         body: {'email': email, 'password': password},
       );
+
+      print('Login response status: ${response.statusCode}'); // Debug log
+      print('Login response body: ${response.body}'); // Debug log
 
       final data = json.decode(response.body);
 
@@ -84,6 +89,8 @@ class AuthRepository {
         await _userInfo.setToken(token);
         await _userInfo.setUserID(user.id);
 
+        print('Login successful, token saved'); // Debug log
+
         return {
           'success': true,
           'message': data['message'],
@@ -91,11 +98,14 @@ class AuthRepository {
           'token': token,
         };
       } else {
+        print('Login failed with status: ${response.statusCode}'); // Debug log
         return {'success': false, 'message': data['message'] ?? 'Login failed'};
       }
-    } on SocketException {
+    } on SocketException catch (e) {
+      print('Socket exception during login: $e'); // Debug log
       return {'success': false, 'message': 'No internet connection'};
     } catch (e) {
+      print('Exception during login: $e'); // Debug log
       return {'success': false, 'message': 'An error occurred: $e'};
     }
   }
@@ -141,38 +151,61 @@ class AuthRepository {
         return {'success': false, 'message': 'No active session'};
       }
 
+      print('Getting profile with token: ${token.substring(0, 10)}...'); // Debug log (partial token)
+
       final response = await http.get(
         Uri.parse(ApiUrl.profile),
         headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
       );
 
+      print('Profile response status: ${response.statusCode}'); // Debug log
+      print('Profile response body: ${response.body}'); // Debug log
+
       final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
         final user = User.fromJson(data['data']);
+        print('Profile retrieved successfully for user: ${user.name}'); // Debug log
         return {'success': true, 'user': user};
       } else {
+        print('Failed to get profile: ${data['message']}'); // Debug log
         return {
           'success': false,
           'message': data['message'] ?? 'Failed to get profile',
         };
       }
-    } on SocketException {
+    } on SocketException catch (e) {
+      print('Socket exception during profile fetch: $e'); // Debug log
       return {'success': false, 'message': 'No internet connection'};
     } catch (e) {
+      print('Exception during profile fetch: $e'); // Debug log
       return {'success': false, 'message': 'An error occurred: $e'};
     }
   }
 
   /// Check if user is logged in
   Future<bool> isLoggedIn() async {
-    final token = await _userInfo.getToken();
-    return token != null && token.isNotEmpty;
+    try {
+      final token = await _userInfo.getToken();
+      final userId = await _userInfo.getUserID();
+      
+      print('Checking login status - Token exists: ${token != null}, User ID exists: ${userId != null}'); // Debug log
+      
+      return token != null && token.isNotEmpty && userId != null;
+    } catch (e) {
+      print('Error checking login status: $e'); // Debug log
+      return false;
+    }
   }
 
   /// Get current user ID
   Future<int?> getCurrentUserId() async {
     return await _userInfo.getUserID();
+  }
+
+  /// Get current token
+  Future<String?> getCurrentToken() async {
+    return await _userInfo.getToken();
   }
 
   /// Update user profile
